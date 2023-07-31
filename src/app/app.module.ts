@@ -2,15 +2,45 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { HttpClientModule } from '@angular/common/http'
+import { ProductService } from './services/product.service';
+
+import { Routes, RouterModule } from '@angular/router';
+import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
+import { SearchComponent } from './components/search/search.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
+// Order of routes is important. First match win. Start from most specific to generic
+const routes: Routes = [
+  {path: 'products/:id', component: ProductDetailsComponent},
+  {path: 'search/:keyword', component: ProductListComponent},
+  {path: 'category/:id/:name', component: ProductListComponent},
+  {path: 'category', component: ProductListComponent},
+  {path: 'products', component: ProductListComponent},
+  {path: '', redirectTo:'.products', pathMatch: 'full'},
+  {path: '**', redirectTo:'/products',pathMatch:'full'}, 
+  // '**' is generic wildcard.通配符. match anything didn't match above
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProductListComponent,
+    ProductCategoryMenuComponent,
+    SearchComponent,
+    ProductDetailsComponent
   ],
   imports: [
-    BrowserModule
+    RouterModule.forRoot(routes),
+    BrowserModule,
+    HttpClientModule,
+    NgbModule
   ],
-  providers: [],
+  providers: [ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
