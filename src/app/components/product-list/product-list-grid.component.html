@@ -21,7 +21,7 @@
                         </a>
 
                         <div class="price">{{ tempProduct.unitPrice | currency:'USD' }}</div>
-                        <a href="#" class="primary-btn">Add to cart</a>
+                        <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button>
                     </div>
 
                     <!-- if products empty then display a message to the user -->
@@ -42,22 +42,44 @@
 
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-9" style="padding-left: 30%;">
+                            <div class="col-md-9" style="padding-right: 30%;">
 
                                 <ngb-pagination [(page)]="thePageNumber"
                                                 [pageSize]="thePageSize"
                                                 [collectionSize]="theTotalElements"
+                                                [maxSize]="5"
+                                                [boundaryLinks]="true"
                                                 (pageChange)="listProducts()">
                                 <!-- Event-Blinding pageChange event-->
                                 </ngb-pagination>
 
                             </div>
+
+                            <div class="col-md-3 mt-2" style="text-align: right">
+                                <span class="mr-2">Page Size </span>
+                                <!--                   ⬇1.         ⬇2.              ⬇3. -->
+                                <select #myPageSelect (change)="updatePageSize(myPageSelect.value)">
+                                    <option>2</option>
+                                    <option selected="true">5</option>
+                                    <option>10</option>
+                                    <option>20</option>
+                                    <option>50</option>
+                                </select>
+                                <!--
+                                1. Event binding: on change
+                                2. When user selects a page, call method: updatePageSize(...)
+                                3. The page value selected by the user
+                                -->
+                            </div>
+
+
                         </div>
 
                     </div>
                 </div>
 
                 <!-- begin footer -->
+
             </div>
         </div>
     </div>
